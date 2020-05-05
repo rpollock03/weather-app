@@ -1,38 +1,79 @@
-.App {
-  text-align: center;
+body{
+    background-color:black;
+    font-family: 'Roboto', sans-serif;
+    font-weight:400;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App{
+max-width:500px;
+margin:auto;
+margin-top:100px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+h1,h2,h3,h4,h5,p, span,hr{
+    color:white;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+/*header component*/
+.title{
+    text-align:center;
+    font-weight:700;
+    
 }
 
-.App-link {
-  color: #61dafb;
+#date-time{
+    font-weight:400;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+/*current weather component */
+.current-weather{
+    text-align:center;
 }
+
+.current-weather-icon{
+    width:100px;
+    height:100px;
+}
+
+
+#current-weather-left{
+    text-align:right;
+}
+
+#current-weather-right{
+    margin-top:18px;
+    text-align:left;
+}
+
+
+/*forecast weather componenet */
+.forecast-container{
+    display:flex;
+    flex-direction:row;
+    justify-content: space-around;
+    text-align:center;
+}
+
+.forecastWeather > p{
+font-size: 0.8em;
+padding-left:0px;
+padding-right:0px;
+margin-left:0px;
+margin-right:0px;
+}
+
+.forecastWeather{
+padding-left:0px;
+padding-right:0px;
+margin-left:0px;
+margin-right:0px;
+}
+
+.forecast-component{
+    border: 2px solid white;
+    
+}
+
