@@ -1,7 +1,8 @@
 body{
-    background-color:black;
+    background: linear-gradient(to bottom, #2d91c2 0%,#1e528e 100%);
     font-family: 'Roboto', sans-serif;
     font-weight:400;
+    height:100vh;
 }
 
 .App{
@@ -18,13 +19,12 @@ h1,h2,h3,h4,h5,p, span,hr{
 
 /*header component*/
 .title{
-    text-align:center;
-    font-weight:700;
+    font-weight:400;
     
 }
 
 #date-time{
-    font-weight:400;
+    font-weight:200;
 }
 
 
@@ -49,31 +49,69 @@ h1,h2,h3,h4,h5,p, span,hr{
 }
 
 
-/*forecast weather componenet */
+/*forecast weather component */
+
+
 .forecast-container{
     display:flex;
     flex-direction:row;
-    justify-content: space-around;
-    text-align:center;
+    justify-content:space-around;
 }
 
-.forecastWeather > p{
-font-size: 0.8em;
-padding-left:0px;
-padding-right:0px;
-margin-left:0px;
-margin-right:0px;
-}
-
-.forecastWeather{
-padding-left:0px;
-padding-right:0px;
-margin-left:0px;
-margin-right:0px;
+.forecast-title{
+    font-weight:500;
 }
 
 .forecast-component{
-    border: 2px solid white;
-    
+    border:white solid 2px;
+    border-radius:25px;
+    flex-grow:1;
+    flex-basis:0;
+    margin-left:2px;
+    margin-right:2px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 
+.top-forecast{
+text-align:center;
+margin-bottom:auto;
+}
+
+.bottom-forecast{
+    font-size:0.8rem;
+}
+
+.left-forecast > p{
+    margin-left:5px;
+}
+
+.right-forecast > p{
+    margin-left:-15px;
+}
+
+
+.high-temp{
+    color:red;
+}
+
+.low-temp{
+    color:blue;
+}
+
+.moon{
+    color:yellow;
+}
+
+.sun{
+    color:orange;
+}
+
+.wind{
+    color:grey;
+}
+
+.rain{
+    color:lightblue;
+}

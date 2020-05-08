@@ -126,7 +126,11 @@ function App() {
 
   return (
     <div className="App col-12">
-      <Header locationName={location.name} locationRegion={location.region} />
+      <Header
+        locationName={location.name}
+        locationRegion={location.region}
+        updateLocation={getLocation}
+      />
       <CurrentWeather
         condition={weather.condition}
         tempc={weather.tempc}
@@ -138,6 +142,8 @@ function App() {
         cloud={weather.cloud}
         isCelsius={tempUnit.isCelsius}
         isMetric={units.isMetric}
+        changeTempUnit={changeTempUnit}
+        changeUnit={changeUnit}
       />
       <hr />
       <div className="forecast-container">
@@ -161,8 +167,6 @@ function App() {
           />
         ))}
       </div>
-      <button onClick={changeTempUnit}>c/f</button>
-      <button onClick={changeUnit}>kph/mph</button>
     </div >
   );
 }

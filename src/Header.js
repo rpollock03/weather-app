@@ -17,16 +17,16 @@ function Header(props) {
     else if (dayOfMonth == 2 || dayOfMonth == 22) suffix = "nd"
     else if (dayOfMonth == 3 || dayOfMonth == 23) suffix = "rd"
     else suffix = "th"
+    let prefix = ""
+    if (minute < 10) prefix = "0"
 
     return (
         <div className="title">
-            <h2>{props.locationName}, {props.locationRegion}</h2>
-            <h4 id="date-time">{days[dayOfWeek]}, {months[month]} {dayOfMonth}{suffix}  ,
-        at {hour > 12 ? hour % 12 + ":" + minute + "pm" : hour + ":" + minute + "am"} </h4>
+            <h3 style={{ cursor: "pointer" }}><i onClick={props.updateLocation} class="fas fa-map-marker-alt"></i> {props.locationName}, {props.locationRegion}</h3>
+            <h5 id="date-time">{days[dayOfWeek]}, {months[month]} {dayOfMonth}{suffix}  ,
+        at {hour > 12 ? hour % 12 + ":" + minute + "pm" : hour + ":" + prefix + minute + "am"} </h5>
         </div>
     )
 }
-
-
 
 export default Header
