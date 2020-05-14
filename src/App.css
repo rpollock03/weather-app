@@ -27,10 +27,15 @@ h1,h2,h3,h4,h5,p, span,hr{
     font-weight:200;
 }
 
+.fa-map-marker-alt{
+    color:rgb(230,74,57);
+}
+
+
 
 /*current weather component */
 .current-weather{
-    text-align:center;
+    text-align:left;
 }
 
 .current-weather-icon{
@@ -40,7 +45,7 @@ h1,h2,h3,h4,h5,p, span,hr{
 
 
 #current-weather-left{
-    text-align:right;
+    text-align:left;
 }
 
 #current-weather-right{
@@ -93,19 +98,19 @@ margin-bottom:auto;
 
 
 .high-temp{
-    color:red;
+    color: rgb(234,67,53);
 }
 
 .low-temp{
-    color:blue;
+    color:rgb(30,135,232);
 }
 
 .moon{
-    color:yellow;
+    color:rgb(255,241,0);
 }
 
 .sun{
-    color:orange;
+    color:rgb(255,177,0)
 }
 
 .wind{

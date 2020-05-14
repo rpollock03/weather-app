@@ -10,8 +10,10 @@
     "bootstrap": "^4.4.1",
     "dotenv": "^8.2.0",
     "font-awesome": "^4.7.0",
+    "google-maps-react": "^2.0.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-hook-google-maps": "0.0.3",
     "react-icons": "^3.10.0",
     "react-scripts": "3.4.1"
   },

@@ -3,7 +3,7 @@ import './App.css';
 import CurrentWeather from "./CurrentWeather"
 import ForecastWeather from "./ForecastWeather"
 import Header from "./Header"
-
+import Map from "./Map"
 // weather API key hidden in env file
 const API_KEY = process.env.REACT_APP_WEATHER_KEY
 
@@ -47,6 +47,12 @@ function App() {
     isMetric: true
   })
 
+  //object for googlemaps
+
+  const googleCoords = {
+    lat: coords.latitude,
+    lng: coords.longitude
+  }
 
 
   // change C/F if button clicked
@@ -126,11 +132,21 @@ function App() {
 
   return (
     <div className="App col-12">
-      <Header
-        locationName={location.name}
-        locationRegion={location.region}
-        updateLocation={getLocation}
-      />
+
+      <div className="row">
+        <div className="col-6">
+          <Header
+            locationName={location.name}
+            locationRegion={location.region}
+            updateLocation={getLocation}
+          />
+
+        </div>
+        <div className="col-6">
+          <Map lat={coords.latitude} lon={coords.longitude} zoom={11} />
+        </div>
+
+      </div>
       <CurrentWeather
         condition={weather.condition}
         tempc={weather.tempc}
@@ -145,6 +161,7 @@ function App() {
         changeTempUnit={changeTempUnit}
         changeUnit={changeUnit}
       />
+
       <hr />
       <div className="forecast-container">
         {forecast.forecast.map((dailyForecast, index) => (
@@ -169,6 +186,11 @@ function App() {
       </div>
     </div >
   );
+
+
+
+
+
 }
 
 export default App;

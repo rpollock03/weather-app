@@ -25,6 +25,7 @@ function Header(props) {
             <h3 style={{ cursor: "pointer" }}><i onClick={props.updateLocation} class="fas fa-map-marker-alt"></i> {props.locationName}, {props.locationRegion}</h3>
             <h5 id="date-time">{days[dayOfWeek]}, {months[month]} {dayOfMonth}{suffix}  ,
         at {hour > 12 ? hour % 12 + ":" + minute + "pm" : hour + ":" + prefix + minute + "am"} </h5>
+
         </div>
     )
 }
