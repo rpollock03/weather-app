@@ -1,0 +1,19 @@
+.title{
+    font-weight:700;
+    font-size:50px;
+}
+
+
+.search-bar{
+    cursor:pointer;
+
+}
+
+.fa-map-marker-alt{
+    color:rgb(230,74,57);
+}
+
+
+.form-rounded{
+    border-radius:2em;
+}

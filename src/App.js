@@ -1,31 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import CurrentWeather from "./CurrentWeather"
-import ForecastWeather from "./ForecastWeather"
-import Header from "./Header"
-import Map from "./Map"
+
+
+
+// react components import
+import Header from "./components/Header"
+import Current from "./components/Current"
+import Forecast from "./components/Forecast"
+import LeafletMap from "./components/LeafletMap"
+
+
+
 // weather API key hidden in env file
 const API_KEY = process.env.REACT_APP_WEATHER_KEY
 
+
+// -------- 
+// MAIN APP 
+// --------
 function App() {
 
+  // -- FUNCTIONS
+
   // state for current weather, passed to Current Weather component
-  const [weather, setWeather] = useState({
+  const [currentWeather, setCurrentWeather] = useState({
     condition: "none",
-    tempf: 0,
-    tempc: 0,
-    icon: "",
-    wind_dir: "",
-    wind_mph: 0,
-    wind_kph: 0,
-    cloud: 0,
+    temp: 0,
   })
 
   // state for location data, passed to Header component 
   const [location, setLocation] = useState({
     name: "",
-    region: "",
+    country: "",
   })
+
+  const [locationMode, setLocationMode] = useState(false)
 
   // state for coordinates, used by findweather function
   const [coords, setCoords] = useState({
@@ -74,31 +83,24 @@ function App() {
 
   // retrieve weather data from weather api based on coordinates
   function getWeather() {
-    let request = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${coords.latitude},${coords.longitude}&days=5`
-    fetch(request)
+    let currentWeatherRequest = `http://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${API_KEY}&units=metric`;
+
+    let forecastRequest = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.latitude}&lon=${coords.longitude}&units=metric&exclude=minutely,hourly,alerts&appid=${API_KEY}`
+
+    // NEED TO ADD REQUESTS FOR IMPERIAL UNITS
+
+    fetch(currentWeatherRequest)
       .then(response => response.json())
-      .then(data => {
-        console.log(data)
-        setWeather({
+      .then(current => {
+        setCurrentWeather({
           // set current weather in state
-          condition: data.current.condition.text,
-          tempc: data.current.temp_c,
-          tempf: data.current.temp_f,
-          icon: data.current.condition.icon,
-          wind_dir: data.current.wind_dir,
-          wind_mph: data.current.wind_mph,
-          wind_kph: data.current.wind_kph,
-          cloud: data.current.cloud,
+          condition: current.weather[0].description,
+
         })
         setLocation({
           // set location state for header component
-          name: data.location.name,
-          region: data.location.region,
-          localTime: data.location.localtime_epoch
-        })
-        setForecast({
-          // add weather forecast to state
-          forecast: data.forecast.forecastday
+          name: current.name,
+          country: current.sys.country
         })
       })
   }
@@ -107,6 +109,10 @@ function App() {
   useEffect(() => {
     getLocation()
   }, [])
+
+  function newLocation() {
+    setLocationMode(true)
+  }
 
   // whenever coordinates are updated, refresh weather forecast
   useEffect(() => {
@@ -131,66 +137,37 @@ function App() {
   }
 
   return (
-    <div className="App col-12">
+    <div className="container">
+      <div className="my-5">
 
-      <div className="row">
-        <div className="col-6">
-          <Header
-            locationName={location.name}
-            locationRegion={location.region}
-            updateLocation={getLocation}
-          />
+        {/*HEAD OF APP*/}
 
+        <Header
+          locationName={location.name}
+          locationCountry={location.country}
+          updateLocation={getLocation}
+          changeLocation={newLocation}
+        />
+
+        {/*BODY OF APP*/}
+
+        <div className="row container">
+          <div className="col-md-8 current-cont">
+            <Current condition={currentWeather.condition} />
+          </div>
+          <div className="col-8 col-md-4 mt-0 mt-md-5 forecast-cont">
+            <p><i class="fas fa-sync-alt"></i> Last Updated: 10 seconds ago</p>
+            <Forecast />
+            <Forecast />
+            <Forecast />
+            <Forecast />
+            <Forecast />
+          </div>
         </div>
-        <div className="col-6">
-          <Map lat={coords.latitude} lon={coords.longitude} zoom={11} />
-        </div>
-
       </div>
-      <CurrentWeather
-        condition={weather.condition}
-        tempc={weather.tempc}
-        tempf={weather.tempf}
-        icon={weather.icon}
-        windDir={weather.wind_dir}
-        windMph={weather.wind_mph}
-        windKph={weather.wind_kph}
-        cloud={weather.cloud}
-        isCelsius={tempUnit.isCelsius}
-        isMetric={units.isMetric}
-        changeTempUnit={changeTempUnit}
-        changeUnit={changeUnit}
-      />
 
-      <hr />
-      <div className="forecast-container">
-        {forecast.forecast.map((dailyForecast, index) => (
-          <ForecastWeather
-            key={index}
-            day={index}
-            condition={dailyForecast.day.condition.text}
-            windKph={dailyForecast.day.maxwind_kph}
-            windMph={dailyForecast.day.maxwind_mph}
-            sunrise={dailyForecast.astro.sunrise}
-            sunset={dailyForecast.astro.sunset}
-            maxTempF={dailyForecast.day.maxtemp_f}
-            minTempF={dailyForecast.day.mintemp_f}
-            maxTempc={dailyForecast.day.maxtemp_c}
-            minTempc={dailyForecast.day.mintemp_c}
-            willRain={dailyForecast.day.daily_will_it_rain}
-            icon={dailyForecast.day.condition.icon}
-            isCelsius={tempUnit.isCelsius}
-            isMetric={units.isMetric}
-          />
-        ))}
-      </div>
-    </div >
+    </div>
   );
-
-
-
-
-
 }
 
 export default App;

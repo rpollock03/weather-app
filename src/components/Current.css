@@ -1,0 +1,123 @@
+.current-card{
+    border-radius:20px !important;
+}
+
+.current-bg{
+    filter:opacity(50%);
+    border-top-left-radius:50px !important;
+    border-top-right-radius:50px !important;
+}
+
+
+.leaflet-container{
+    position:relative;
+    z-index:2;
+    border-top-left-radius:20px !important;
+    border-top-right-radius:20px !important;
+    opacity: .45;
+
+}
+
+
+.day-date{
+position:absolute;
+    width:100%;
+    z-index:3;
+    background:grey;
+    height:70px;
+}
+
+.day-date p{
+    font-size:22pt;
+    font-weight:500;
+    color:white;
+}
+
+.day-date span{
+    font-weight:400;
+    font-size:36pt;
+    font-family:"Times New Roman",Times, serif;
+    color:white;
+    position:relative;
+    top:-60px;
+}
+
+.icon-container{
+    border-radius:100%;
+    margin-top:-100px;
+    width:200px;
+    height:200px;
+    background: grey;
+    z-index:2;
+}
+.icon-container img{
+    margin: auto;
+    width:85%;
+    height:85%;
+}
+
+
+
+
+
+
+
+
+.temp span{
+    font-weight:100;
+    font-size:5em;
+    letter-spacing: -5px;
+    white-space:nowrap;
+}
+
+.temp p{
+    padding-top:25px;
+}
+.card-mid{
+    line-height:0.5
+}
+
+.condition{
+    line-height:1em;
+    font-weight:700;
+    font-size:2em;
+    text-transform:capitalize;
+}
+
+
+.card-bottom{
+    line-height:0.5;
+}
+
+.card-bottom span{
+    font-size:50px;
+    font-weight:100;
+    letter-spacing: -2px;
+}
+
+
+
+
+.time-stamp{
+    width:50vw;
+    display:flex;
+    justify-content:flex-end;
+}
+
+.forecast-days{
+    position:absolute;
+    bottom:0;
+    margin-left:50px;
+    transform: translatey(50px);
+
+    background: rgb(58,58,60);
+    height:100px;
+    border: 2px solid white;
+    width:90%;
+}
+
+
+
+
+
+
