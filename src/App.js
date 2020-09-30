@@ -26,12 +26,23 @@ function App() {
   const [currentWeather, setCurrentWeather] = useState({
     condition: "none",
     temp: 0,
+    max: 0,
+    min: 0,
+    sunrise: 0,
+    sunset: 0,
+    windSpeed: 0,
+    windDirect: 0,
+    cloudCover: 0,
+    iconCode: 0
   })
+
+
 
   // state for location data, passed to Header component 
   const [location, setLocation] = useState({
     name: "",
     country: "",
+    dateTime: 0
   })
 
   const [locationMode, setLocationMode] = useState(false)
@@ -95,12 +106,21 @@ function App() {
         setCurrentWeather({
           // set current weather in state
           condition: current.weather[0].description,
-
+          temp: current.main.temp,
+          max: current.main.temp_max,
+          min: current.main.temp_min,
+          sunrise: current.sys.sunris,
+          sunset: current.sys.sunset,
+          windSpeed: current.wind.speed,
+          windDirection: current.wind.deg,
+          cloudClover: current.clouds.all,
+          iconCode: current.weather[0].id
         })
         setLocation({
           // set location state for header component
           name: current.name,
-          country: current.sys.country
+          country: current.sys.country,
+          dateTime: current.dt
         })
       })
   }
@@ -153,7 +173,20 @@ function App() {
 
         <div className="row container">
           <div className="col-md-8 current-cont">
-            <Current condition={currentWeather.condition} />
+            <Current
+              condition={currentWeather.condition}
+              temp={currentWeather.temp}
+              max={currentWeather.max}
+              min={currentWeather.min}
+              sunrise={currentWeather.sunrise}
+              sunset={currentWeather.sunset}
+              windSpeed={currentWeather.windSpeed}
+              windDirection={currentWeather.windDirection}
+              cloudCover={currentWeather.cloudCover}
+              dateTime={location.dateTime}
+            />
+
+
           </div>
           <div className="col-8 col-md-4 mt-0 mt-md-5 forecast-cont">
             <p><i class="fas fa-sync-alt"></i> Last Updated: 10 seconds ago</p>

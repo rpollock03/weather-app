@@ -4,6 +4,7 @@ import weatherLogo from "../icons/day_sleet.svg"
 import "./Current.css"
 
 import LeafletMap from "./LeafletMap"
+import WeatherIcon from "./WeatherIcon"
 
 function Current(props) {
 
@@ -15,15 +16,13 @@ function Current(props) {
                     <span>...</span>
                 </div>
                 <LeafletMap id="leaflet-map" />
-                {/*}
-                <img src="https://s3.visitbelfast.com/app/uploads/2019/05/Belfast-City-Hall_1557862122.jpg" alt="" className="card-img-top current-bg" />*/}
             </div>
             <div className="card-body">
 
                 <div className="card-mid row">
                     <div className="col-4 temp text-center">
-                        <span>30°c</span>
-                        <p>High: 20   | Low: 14</p>
+                        <span>{Math.round(props.temp)}°c</span>
+                        <p>High: {Math.round(props.max)}   | Low: {Math.round(props.min)}</p>
 
                     </div>
                     <div className="col-4 icon-container card shadow mx-auto">
