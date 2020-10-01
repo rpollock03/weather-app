@@ -45,8 +45,6 @@ function App() {
     dateTime: 0
   })
 
-  const [locationMode, setLocationMode] = useState(false)
-
   // state for coordinates, used by findweather function
   const [coords, setCoords] = useState({
     latitude: 0.0,
@@ -67,12 +65,6 @@ function App() {
     isMetric: true
   })
 
-  //object for googlemaps
-
-  const googleCoords = {
-    lat: coords.latitude,
-    lng: coords.longitude
-  }
 
 
   // change C/F if button clicked
@@ -130,9 +122,7 @@ function App() {
     getLocation()
   }, [])
 
-  function newLocation() {
-    setLocationMode(true)
-  }
+
 
   // whenever coordinates are updated, refresh weather forecast
   useEffect(() => {
@@ -165,8 +155,6 @@ function App() {
         <Header
           locationName={location.name}
           locationCountry={location.country}
-          updateLocation={getLocation}
-          changeLocation={newLocation}
         />
 
         {/*BODY OF APP*/}
@@ -183,7 +171,8 @@ function App() {
               windSpeed={currentWeather.windSpeed}
               windDirection={currentWeather.windDirection}
               cloudCover={currentWeather.cloudCover}
-              dateTime={location.dateTime}
+              lat={coords.latitude}
+              lon={coords.longitude}
             />
 
 

@@ -4,18 +4,18 @@ import { Map, Marker, Popup, TileLayer } from "react-leaflet"
 
 import "./Map.css"
 
-function LeafletMap() {
+function LeafletMap(props) {
 
 
     const API_KEY = process.env.REACT_APP_WEATHER_KEY
-    const position = [51.505, -0.09]
+    const position = [props.lat, props.lon]
 
     return (
         < Map
 
 
             center={position}
-            zoom={4}
+            zoom={10}
             zoomControl={false}
             doubleClickZoom={false}
             closePopupOnClick={false}

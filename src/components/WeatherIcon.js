@@ -1,9 +1,11 @@
 import React from "react"
 
+import day_clear from "../icons/day_clear.svg"
+
 
 function WeatherIcon(props) {
 
-    let iconPath = "";
+
 
     //if time is after sunrise, before sunset
 
@@ -16,7 +18,7 @@ function WeatherIcon(props) {
 
 
     return (
-        <img src="" alt="weather icon" />
+        <img src={day_clear} alt="weather icon" />
     )
 
 }
