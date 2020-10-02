@@ -40,7 +40,7 @@ function Current(props) {
 
                     </div>
                     <div className="col-4 icon-container card shadow mx-auto">
-                        <WeatherIcon />
+                        <WeatherIcon icon={props.icon} sunrise={props.sunrise} sunset={props.sunset} />
                     </div>
                     <div className="col-4 text-center">
                         <p className="condition">{props.condition}</p>

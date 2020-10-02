@@ -21,8 +21,6 @@ const GEOCODE_KEY = process.env.REACT_APP_GEOCODE_API_KEY
 // --------
 function App() {
 
-  // -- FUNCTIONS
-
   // state for current weather, passed to Current Weather component
   const [currentWeather, setCurrentWeather] = useState({
     condition: "none",
@@ -37,7 +35,10 @@ function App() {
     iconCode: 0
   })
 
-
+  // weather forecast array stored here and passed to forecast component
+  const [forecast, setForecast] = useState({
+    forecast: []
+  })
 
   // state for location data, passed to Header component 
   const [location, setLocation] = useState({
@@ -52,10 +53,6 @@ function App() {
     longitude: 0.0
   })
 
-  // weather forecast array stored here and passed to forecast component
-  const [forecast, setForecast] = useState({
-    forecast: []
-  })
 
   //state to keep track of units of measurement
   const [tempUnit, setTempUnit] = useState({
@@ -65,6 +62,9 @@ function App() {
   const [units, setUnits] = useState({
     isMetric: true
   })
+
+
+  // -- FUNCTIONS
 
   // change C/F if button clicked
   function changeTempUnit() {
@@ -86,18 +86,19 @@ function App() {
   // retrieve weather data from weather api based on coordinates
   function getWeather(searchTerm) {
     let currentWeatherRequest = ""
+    let forecastRequest = ""
 
     //if there is a search term 
     if (searchTerm) {
+      //search for weather in specified location
       currentWeatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${searchTerm}&appid=${API_KEY}&units=metric`
+      forecastRequest = `https://api.openweathermap.org/data/2.5/onecall?q=${searchTerm}&units=metric&exclude=minutely,hourly,alerts&appid=${API_KEY}`
 
     } else {
-      // api based on coordinates
+      // search based on gps
       currentWeatherRequest = `http://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${API_KEY}&units=metric`;
-      console.log("there is no search term!")
+      forecastRequest = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.latitude}&lon=${coords.longitude}&units=metric&exclude=minutely,hourly,alerts&appid=${API_KEY}`
     }
-
-    let forecastRequest = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.latitude}&lon=${coords.longitude}&units=metric&exclude=minutely,hourly,alerts&appid=${API_KEY}`
 
     // NEED TO ADD REQUESTS FOR IMPERIAL UNITS
 
@@ -124,12 +125,25 @@ function App() {
           dateTime: current.dt
         })
       })
+
+    fetch(forecastRequest)
+      .then(response => response.json())
+      .then(forecast => {
+        setForecast({
+          forecast: forecast
+        })
+      })
   }
 
   // get user coordinates from browser upon component rendering
   useEffect(() => {
     getLocation()
   }, [])
+
+  // whenever coordinates are updated, refresh weather forecast
+  useEffect(() => {
+    getWeather()
+  }, [coords])
 
   //update coordinates based on search term
   function updateCoords(searchTerm) {
@@ -144,17 +158,9 @@ function App() {
             latitude: newLocation[0].lat,
             longitude: newLocation[0].lon
           }, getWeather(searchTerm))
-
         }
       })
-
   }
-
-
-  // whenever coordinates are updated, refresh weather forecast
-  useEffect(() => {
-    getWeather()
-  }, [coords])
 
   // function to determine user coordinates from browser
   function getLocation() {
@@ -202,6 +208,7 @@ function App() {
               cloudCover={currentWeather.cloudCover}
               lat={coords.latitude}
               lon={coords.longitude}
+              icon={currentWeather.iconCode}
             />
 
 
