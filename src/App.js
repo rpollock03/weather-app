@@ -13,6 +13,7 @@ import LeafletMap from "./components/LeafletMap"
 
 // weather API key hidden in env file
 const API_KEY = process.env.REACT_APP_WEATHER_KEY
+const GEOCODE_KEY = process.env.REACT_APP_GEOCODE_API_KEY
 
 
 // -------- 
@@ -65,8 +66,6 @@ function App() {
     isMetric: true
   })
 
-
-
   // change C/F if button clicked
   function changeTempUnit() {
     setTempUnit({
@@ -85,8 +84,18 @@ function App() {
   }
 
   // retrieve weather data from weather api based on coordinates
-  function getWeather() {
-    let currentWeatherRequest = `http://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${API_KEY}&units=metric`;
+  function getWeather(searchTerm) {
+    let currentWeatherRequest = ""
+
+    //if there is a search term 
+    if (searchTerm) {
+      currentWeatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${searchTerm}&appid=${API_KEY}&units=metric`
+
+    } else {
+      // api based on coordinates
+      currentWeatherRequest = `http://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${API_KEY}&units=metric`;
+      console.log("there is no search term!")
+    }
 
     let forecastRequest = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.latitude}&lon=${coords.longitude}&units=metric&exclude=minutely,hourly,alerts&appid=${API_KEY}`
 
@@ -122,6 +131,24 @@ function App() {
     getLocation()
   }, [])
 
+  //update coordinates based on search term
+  function updateCoords(searchTerm) {
+    fetch(`https://us1.locationiq.com/v1/search.php?key=${GEOCODE_KEY}&q=${searchTerm}&limit=1&format=json`)
+      .then(response => response.json())
+      .then(newLocation => {
+        if (newLocation.error) {
+          alert("Can't find location!")
+          return;
+        } else {
+          setCoords({
+            latitude: newLocation[0].lat,
+            longitude: newLocation[0].lon
+          }, getWeather(searchTerm))
+
+        }
+      })
+
+  }
 
 
   // whenever coordinates are updated, refresh weather forecast
@@ -155,6 +182,8 @@ function App() {
         <Header
           locationName={location.name}
           locationCountry={location.country}
+          updateCoords={updateCoords}
+
         />
 
         {/*BODY OF APP*/}

@@ -11,6 +11,16 @@ function Header(props) {
         setShowSearch(!showSearch)
     }
 
+    //manual search
+    function handleSearch(event) {
+        if (event.key === "Enter") {
+            let searchTerm = event.target.value;
+            props.updateCoords(searchTerm)
+
+        }
+
+    }
+
 
     return (
         <div className="text-center">
@@ -20,7 +30,7 @@ function Header(props) {
                 {showSearch ? (
 
                     <div className="input-group search-location col-8 col-md-6 mx-auto">
-                        <input id="testingthis" placeholder="Enter a new location e.g. London" autocomplete="off" name="city" type="text" className="form-control text-muted form-rounded p-4 shadow-sm" />
+                        <input id="testingthis" placeholder="Enter a new location e.g. London" autocomplete="off" name="city" type="text" className="form-control text-muted form-rounded p-4 shadow-sm" onKeyPress={(event) => handleSearch(event)} />
                     </div>
 
                 ) : null}
