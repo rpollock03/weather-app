@@ -111,7 +111,7 @@ function App() {
           temp: current.main.temp,
           max: current.main.temp_max,
           min: current.main.temp_min,
-          sunrise: current.sys.sunris,
+          sunrise: current.sys.sunrise,
           sunset: current.sys.sunset,
           windSpeed: current.wind.speed,
           windDirection: current.wind.deg,

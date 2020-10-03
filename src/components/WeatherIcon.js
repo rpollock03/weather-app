@@ -1,6 +1,5 @@
 import React from "react"
 
-
 import day_rain from "../icons/day_rain.svg"
 import day_sleet from "../icons/day_sleet.svg"
 import day_snow from "../icons/day_snow.svg"
@@ -26,9 +25,9 @@ import thunder from "../icons/thunder.svg"
 import fog from "../icons/fog.svg"
 import mist from "../icons/mist.svg"
 import wind from "../icons/wind.svg"
-import overcast from "/icons/overcast.svg"
-import cloud from "/icons/cloud.svg"
-import tornado from "/icons/tornado.svg"
+import overcast from "../icons/overcast.svg"
+import cloudy from "../icons/cloudy.svg"
+import tornado from "../icons/tornado.svg"
 
 function WeatherIcon(props) {
 
@@ -46,28 +45,43 @@ function WeatherIcon(props) {
     let sunsetHour = sunset.getHours()
 
     //icon codes
-    let thunderStorm = [200, 201, 202, 210, 211, 212, 221, 230, 231, 232]
-    let lightRain = [300, 301, 310, 311, 313, 315, 500, 501, 520, 521]
-    let heavyRain = [302, 312, 314, 502, 503, 504, 531, 522]
-    let snow = [511, 600, 601, 602, 620, 621, 622]
-    let sleet = [611, 612, 613, 615, 616]
-    let atmosphere = [701, 711, 721, 731, 741, 751, 761, 762, 771]
-    let tornado = 781
-    let clear = 800
-    let lightCloud = [801, 802, 803]
-    let cloud = 804
+    let thunderStormList = [200, 201, 202, 210, 211, 212, 221, 230, 231, 232]
+    let lightRainList = [300, 301, 310, 311, 313, 315, 500, 501, 520, 521]
+    let heavyRainList = [302, 312, 314, 502, 503, 504, 531, 522]
+    let snowList = [511, 600, 601, 602, 620, 621, 622]
+    let sleetList = [611, 612, 613, 615, 616]
+    let atmosphereList = [701, 711, 721, 731, 741, 751, 761, 762, 771]
+    let tornadoList = 781
+    let clearList = 800
+    let lightCloudList = [801, 802, 803]
+    let cloudList = 804
 
     // if during the day
     if (currentHour > sunriseHour && currentHour < sunsetHour) {
-
-
-
-        icon = day_rain
+        if (thunderStormList.includes(iconCode)) icon = rain_thunder;
+        if (lightRainList.includes(iconCode)) icon = day_rain;
+        if (heavyRainList.includes(iconCode)) icon = rain;
+        if (snowList.includes(iconCode)) icon = snow;
+        if (sleetList.includes(iconCode)) icon = sleet;
+        if (atmosphereList.includes(iconCode)) icon = fog;
+        if (iconCode === tornadoList) icon = tornado;
+        if (iconCode === clearList) icon = day_clear;
+        if (lightCloudList.includes(iconCode)) icon = day_partial_cloud;
+        if (cloudList === iconCode) icon = cloudy;
     }
     //if at night
-    else icon = night_rain
-
-
+    else if (currentHour < sunriseHour && currentHour > sunsetHour) {
+        if (thunderStormList.includes(iconCode)) icon = rain_thunder;
+        if (lightRainList.includes(iconCode)) icon = night_rain;
+        if (heavyRainList.includes(iconCode)) icon = rain;
+        if (snowList.includes(iconCode)) icon = snow;
+        if (sleetList.includes(iconCode)) icon = sleet;
+        if (atmosphereList.includes(iconCode)) icon = fog;
+        if (iconCode === tornadoList) icon = tornado;
+        if (iconCode === clearList) icon = night_clear;
+        if (lightCloudList.includes(iconCode)) icon = night_partial_cloud;
+        if (cloudList === iconCode) icon = cloudy
+    }
 
 
     return (

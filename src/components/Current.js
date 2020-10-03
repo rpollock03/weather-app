@@ -16,9 +16,9 @@ function Current(props) {
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
     let suffix = ""
-    if (dayOfMonth == 1 || dayOfMonth == 21 || dayOfMonth == 31) suffix = "st"
-    else if (dayOfMonth == 2 || dayOfMonth == 22) suffix = "nd"
-    else if (dayOfMonth == 3 || dayOfMonth == 23) suffix = "rd"
+    if (dayOfMonth === 1 || dayOfMonth === 21 || dayOfMonth === 31) suffix = "st"
+    else if (dayOfMonth === 2 || dayOfMonth === 22) suffix = "nd"
+    else if (dayOfMonth === 3 || dayOfMonth === 23) suffix = "rd"
     else suffix = "th"
 
 
