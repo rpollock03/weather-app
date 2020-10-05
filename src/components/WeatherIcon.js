@@ -57,7 +57,7 @@ function WeatherIcon(props) {
     let cloudList = 804
 
     // if during the day
-    if (currentHour > sunriseHour && currentHour < sunsetHour) {
+    if (currentHour >= sunriseHour && currentHour < sunsetHour) {
         if (thunderStormList.includes(iconCode)) icon = rain_thunder;
         if (lightRainList.includes(iconCode)) icon = day_rain;
         if (heavyRainList.includes(iconCode)) icon = rain;
@@ -70,7 +70,7 @@ function WeatherIcon(props) {
         if (cloudList === iconCode) icon = cloudy;
     }
     //if at night
-    else if (currentHour < sunriseHour && currentHour > sunsetHour) {
+    else if (currentHour < sunriseHour && currentHour >= sunsetHour) {
         if (thunderStormList.includes(iconCode)) icon = rain_thunder;
         if (lightRainList.includes(iconCode)) icon = night_rain;
         if (heavyRainList.includes(iconCode)) icon = rain;

@@ -7,10 +7,27 @@ import WeatherIcon from "./WeatherIcon"
 
 function Current(props) {
 
+    //current date/time
     let date = new Date(Date.now()) //can sub contents of brackets for epoch stamp from API
     let monthOfYear = date.getMonth()
     let dayOfWeek = date.getDay()
     let dayOfMonth = date.getDate()
+    let hourOfDay = date.getHours()
+    let currentMinute = date.getMinutes()
+
+    //sunset date/time
+    let sunsetDate = new Date(props.sunset * 1000)
+    let sunsetHour = sunsetDate.getHours()
+    let sunsetMinute = sunsetDate.getMinutes()
+    //sunrise date/time
+    let sunriseDate = new Date(props.sunrise * 1000)
+    let sunriseHour = sunriseDate.getHours()
+    let sunriseMinute = sunriseDate.getMinutes()
+
+    let isDay;
+
+    if (hourOfDay <= sunsetHour && hourOfDay >= sunriseHour) { isDay = true }
+    else isDay = false;
 
     let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -56,7 +73,11 @@ function Current(props) {
                         <p><i class="fas fa-umbrella"></i>  Rain: 22mm</p>
                     </div>
                     <div className="col-4 text-center">
-                        <p><i class="fas fa-moon"></i> Sunset:530pm</p>
+                        {isDay ?
+                            (<p><i class="fas fa-moon"></i> Sunset:{sunsetHour % 12}:{sunsetMinute}pm</p>)
+                            :
+                            (<p><i class="fas fa-sun"></i> Sunrise:{sunriseHour % 12}:{sunriseMinute}am</p>)
+                        }
                     </div>
                     <div className="col-4 text-center">
                         <p><i class="fas fa-wind"></i> Wind</p>
