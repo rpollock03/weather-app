@@ -14,6 +14,9 @@ body{
 
 .container{
     max-width:1000px;
-   
+}
+
+.forecast-cont{
+    z-index: 100;
 }
 

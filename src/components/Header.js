@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import "./Header.css";
 
@@ -26,7 +26,7 @@ function Header(props) {
         <div className="text-center">
             <h1 className="text-center title font-weight-bold">Weather in</h1>
             <div>
-                <h3 className="search-bar" onClick={showSearchBar}><i class="fas fa-map-marker-alt"></i> {props.locationName}, {props.locationCountry}</h3>
+                <h3 className="search-bar" onClick={showSearchBar}><i className="fas fa-map-marker-alt"></i> {props.locationName}, {props.locationCountry}</h3>
                 {showSearch ? (
 
                     <div className="input-group search-location col-8 col-md-6 mx-auto">

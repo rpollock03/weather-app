@@ -38,6 +38,18 @@ function Current(props) {
     else if (dayOfMonth === 3 || dayOfMonth === 23) suffix = "rd"
     else suffix = "th"
 
+    let windDirection = ""
+    let windDeg = props.windDirection
+    if ((windDeg >= 0 && windDeg <= 24) || windDeg >= 336) windDirection = "North"
+    if (windDeg >= 25 && windDeg <= 67) windDirection = "North East"
+    if (windDeg >= 68 && windDeg <= 112) windDirection = "East"
+    if (windDeg >= 113 && windDeg <= 157) windDirection = "South East"
+    if (windDeg >= 158 && windDeg <= 202) windDirection = "South"
+    if (windDeg >= 203 && windDeg <= 248) windDirection = "South West"
+    if (windDeg >= 249 && windDeg <= 294) windDirection = "West"
+    if (windDeg >= 295 && windDeg <= 335) windDirection = "North west"
+
+
 
     return (
         <div className="card rounded my-3 shadow-lg current-card">
@@ -53,7 +65,7 @@ function Current(props) {
                 <div className="card-mid row">
                     <div className="col-4 temp text-center">
                         <span>{Math.round(props.temp)}°c</span>
-                        <p><i class="fas fa-thermometer-three-quarters"></i> High: {Math.round(props.max)}   | <i class="fas fa-thermometer-empty"></i> Low: {Math.round(props.min)}</p>
+                        <p><i className="fas fa-thermometer-three-quarters"></i> High: {Math.round(props.max)}   | <i className="fas fa-thermometer-empty"></i> Low: {Math.round(props.min)}</p>
 
                     </div>
                     <div className="col-4 icon-container card shadow mx-auto">
@@ -68,26 +80,26 @@ function Current(props) {
 
                 <div className="card-bottom px-3 pt-4 row">
                     <div className="col-4">
-                        <p><i class="fas fa-tint"></i>  Humidity: 4</p>
-                        <p><i class="fas fa-cloud"></i> Cloud Cover: 5</p>
-                        <p><i class="fas fa-umbrella"></i>  Rain: 22mm</p>
+                        <p><i className="fas fa-tint"></i>  Humidity: 4</p>
+                        <p><i className="fas fa-cloud"></i> Cloud Cover: 5</p>
+                        <p><i className="fas fa-umbrella"></i>  Rain: 22mm</p>
                     </div>
                     <div className="col-4 text-center">
                         {isDay ?
-                            (<p><i class="fas fa-moon"></i> Sunset:{sunsetHour % 12}:{sunsetMinute}pm</p>)
+                            (<p><i className="fas fa-moon"></i> Sunset:{sunsetHour % 12}:{sunsetMinute}pm</p>)
                             :
-                            (<p><i class="fas fa-sun"></i> Sunrise:{sunriseHour % 12}:{sunriseMinute}am</p>)
+                            (<p><i className="fas fa-sun"></i> Sunrise:{sunriseHour % 12}:{sunriseMinute}am</p>)
                         }
                     </div>
                     <div className="col-4 text-center">
-                        <p><i class="fas fa-wind"></i> Wind</p>
-                        <span>5 m/s</span>
-                        <p>SouthEast</p>
+
+                        <span><i className="fas fa-wind"></i> {props.windSpeed}m/s</span>
+                        <p className="mt-2">{windDirection}</p>
                     </div>
 
                 </div>
                 <div className="text-center mt-3">
-                    <span><i class="fas fa-cog"></i> kph/mph   C/F</span>
+                    <span><i className="fas fa-cog"></i> kph/mph   C/F</span>
                 </div>
 
             </div>

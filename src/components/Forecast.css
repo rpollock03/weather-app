@@ -12,9 +12,10 @@ margin-left: -40px;
 
 }
 
-
 .forecast-icon{
-  
-    border-top-left-radius:20px;
-    
+    border-radius:100%;
+    width:100px;
+    height:100px;
+    background: grey;
+    z-index:2;
 }

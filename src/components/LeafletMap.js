@@ -15,7 +15,7 @@ function LeafletMap(props) {
 
 
             center={position}
-            zoom={10}
+            zoom={8}
             zoomControl={false}
             doubleClickZoom={false}
             closePopupOnClick={false}
@@ -34,9 +34,9 @@ function LeafletMap(props) {
             <TileLayer url={"http://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=" + API_KEY}
 
             />
-            <Marker position={position}>
+            {/* <Marker position={position}>
                 <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
-            </Marker>
+            </Marker>*/}
         </Map >)
 
 }

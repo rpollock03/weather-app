@@ -7,7 +7,7 @@ import './App.css';
 import Header from "./components/Header"
 import Current from "./components/Current"
 import Forecast from "./components/Forecast"
-import LeafletMap from "./components/LeafletMap"
+
 
 
 
@@ -37,8 +37,10 @@ function App() {
 
   // weather forecast array stored here and passed to forecast component
   const [forecast, setForecast] = useState({
-    forecast: []
+    forecasts: []
   })
+
+
 
   // state for location data, passed to Header component 
   const [location, setLocation] = useState({
@@ -84,21 +86,14 @@ function App() {
   }
 
   // retrieve weather data from weather api based on coordinates
-  function getWeather(searchTerm) {
+  function getWeather() {
     let currentWeatherRequest = ""
     let forecastRequest = ""
 
-    //if there is a search term 
-    if (searchTerm) {
-      //search for weather in specified location
-      currentWeatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${searchTerm}&appid=${API_KEY}&units=metric`
-      forecastRequest = `https://api.openweathermap.org/data/2.5/onecall?q=${searchTerm}&units=metric&exclude=minutely,hourly,alerts&appid=${API_KEY}`
+    currentWeatherRequest = `http://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${API_KEY}&units=metric`;
 
-    } else {
-      // search based on gps
-      currentWeatherRequest = `http://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${API_KEY}&units=metric`;
-      forecastRequest = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.latitude}&lon=${coords.longitude}&units=metric&exclude=minutely,hourly,alerts&appid=${API_KEY}`
-    }
+    forecastRequest = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.latitude}&lon=${coords.longitude}&units=metric&exclude=minutely,hourly,alerts&appid=${API_KEY}`
+
 
     // NEED TO ADD REQUESTS FOR IMPERIAL UNITS
 
@@ -125,14 +120,15 @@ function App() {
           dateTime: current.dt
         })
       })
-
     fetch(forecastRequest)
       .then(response => response.json())
       .then(forecast => {
         setForecast({
-          forecast: forecast
+          forecasts: forecast.daily.slice(1, 5)
         })
+        console.log(forecast.daily.slice(1, 5))
       })
+
   }
 
   // get user coordinates from browser upon component rendering
@@ -140,10 +136,11 @@ function App() {
     getLocation()
   }, [])
 
-  // whenever coordinates are updated, refresh weather forecast
   useEffect(() => {
     getWeather()
   }, [coords])
+
+
 
   //update coordinates based on search term
   function updateCoords(searchTerm) {
@@ -162,10 +159,12 @@ function App() {
       })
   }
 
+
   // function to determine user coordinates from browser
   function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition)
+
     } else {
       alert("geolocation not supported by browser! Please enter a location")
     }
@@ -178,6 +177,25 @@ function App() {
       longitude: position.coords.longitude
     })
   }
+
+  let lastUpdate = new Date(location.dateTime) //can sub contents of brackets for epoch stamp from API
+  let monthOfYear = lastUpdate.getMonth()
+  let dayOfWeek = lastUpdate.getDay()
+  let dayOfMonth = lastUpdate.getDate()
+  let hour = lastUpdate.getHours()
+  let minute = lastUpdate.getMinutes()
+  let seconds = lastUpdate.getSeconds()
+
+  let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+  let suffix = ""
+  if (dayOfMonth === 1 || dayOfMonth === 21 || dayOfMonth === 31) suffix = "st"
+  else if (dayOfMonth === 2 || dayOfMonth === 22) suffix = "nd"
+  else if (dayOfMonth === 3 || dayOfMonth === 23) suffix = "rd"
+  else suffix = "th"
+
+
 
   return (
     <div className="container">
@@ -209,17 +227,25 @@ function App() {
               lat={coords.latitude}
               lon={coords.longitude}
               icon={currentWeather.iconCode}
+
             />
 
 
           </div>
           <div className="col-8 col-md-4 mt-0 mt-md-5 forecast-cont">
-            <p><i class="fas fa-sync-alt"></i> Last Updated: 10 seconds ago</p>
-            <Forecast />
-            <Forecast />
-            <Forecast />
-            <Forecast />
-            <Forecast />
+            <p><i className="fas fa-sync-alt"></i>{days[dayOfWeek]}, {dayOfMonth}{suffix} {months[monthOfYear]} at {hour}:{minute}:{seconds} </p>
+
+            {forecast.forecasts.map((dailyForecast, index) =>
+              <Forecast
+                key={index}
+                weather={dailyForecast.weather[0].description}
+                icon={dailyForecast.weather[0].id}
+              />
+            )}
+
+
+
+
           </div>
         </div>
       </div>
