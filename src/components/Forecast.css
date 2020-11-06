@@ -1,7 +1,9 @@
 .forecast-boxes{
     min-width:100%;
-    height:17%;
+    height:16%;
     border-radius:20px !important;
+    color:#f8f8ff;
+
 }
 
 @media (min-width:768px ){
@@ -12,10 +14,73 @@ margin-left: -40px;
 
 }
 
+@media (max-width:768px ){
+.forecast-boxes{
+
+margin:auto;
+width:100%;
+}
+
+}
+
 .forecast-icon{
     border-radius:100%;
-    width:100px;
-    height:100px;
-    background: grey;
+    max-width:100px;
+    
     z-index:2;
+    height:100px;
+    width:100px;
 }
+
+.forecast-day{
+    font-weight:700;
+}
+
+.forecast-icon img{
+    margin: auto;
+    vertical-align:middle;
+
+    width:95%;
+    height:95%;
+}
+
+
+
+#forecast1{
+    background:linear-gradient(45deg,#4099ff,#73b4ff);
+    
+}
+
+
+#forecast1> .forecast-icon{
+    background:#003E85;
+}
+
+
+
+#forecast2{
+    background: linear-gradient(45deg,#2ed8b6,#59e0c5);
+}
+
+#forecast2>.forecast-icon{
+    background:#115E4F;
+}
+
+#forecast0{
+background: linear-gradient(45deg,#FFB64D,#ffcb80);
+}
+
+#forecast0>.forecast-icon{
+    background:#895000;
+}
+
+#forecast3{
+    background: linear-gradient(45deg,#FF5370,#ff869a);
+}
+
+#forecast3>.forecast-icon{
+    background:#8A0017;
+}
+
+
+

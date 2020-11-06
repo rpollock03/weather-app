@@ -15,6 +15,16 @@ function Current(props) {
     let hourOfDay = date.getHours()
     let currentMinute = date.getMinutes()
 
+
+    function getMonth(date) {
+        let month = date.getMonth()
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        let value = months[month]
+        return (value)
+    }
+
+
+
     //sunset date/time
     let sunsetDate = new Date(props.sunset * 1000)
     let sunsetHour = sunsetDate.getHours()
@@ -24,13 +34,18 @@ function Current(props) {
     let sunriseHour = sunriseDate.getHours()
     let sunriseMinute = sunriseDate.getMinutes()
 
+    //last refresh
+    let lastUpdate = new Date(props.dateTime * 1000);
+
+
+
     let isDay;
 
     if (hourOfDay <= sunsetHour && hourOfDay >= sunriseHour) { isDay = true }
     else isDay = false;
 
     let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
 
     let suffix = ""
     if (dayOfMonth === 1 || dayOfMonth === 21 || dayOfMonth === 31) suffix = "st"
@@ -49,13 +64,21 @@ function Current(props) {
     if (windDeg >= 249 && windDeg <= 294) windDirection = "West"
     if (windDeg >= 295 && windDeg <= 335) windDirection = "North west"
 
+    function getTemp(tempc) {
+        if (props.isMetric) {
+            return Math.round(tempc) + "°c"
+        } else {
+            let tempf = Math.round(tempc * 1.8 + 32) + "°f"
+            return tempf
+        }
+    }
 
 
     return (
         <div className="card rounded my-3 shadow-lg current-card">
             <div className="card-top text-center">
                 <div className="day-date my-3">
-                    <p>{days[dayOfWeek]}, {months[monthOfYear]} {dayOfMonth}{suffix}</p>
+                    <p>{days[dayOfWeek]}, {getMonth(date)} {dayOfMonth}{suffix}</p>
                     <span>...</span>
                 </div>
                 <LeafletMap id="leaflet-map" lat={props.lat} lon={props.lon} />
@@ -64,8 +87,10 @@ function Current(props) {
 
                 <div className="card-mid row">
                     <div className="col-4 temp text-center">
-                        <span>{Math.round(props.temp)}°c</span>
-                        <p><i className="fas fa-thermometer-three-quarters"></i> High: {Math.round(props.max)}   | <i className="fas fa-thermometer-empty"></i> Low: {Math.round(props.min)}</p>
+                        <span>
+                            {getTemp(props.temp)}
+                        </span>
+                        <p className="highAndLow"><i className="fas fa-thermometer-three-quarters" id="red-icon"></i>H: {getTemp(props.max)}   |    <i className="fas fa-thermometer-empty" id="blue-icon"></i>L: {getTemp(props.min)}</p>
 
                     </div>
                     <div className="col-4 icon-container card shadow mx-auto">
@@ -79,31 +104,36 @@ function Current(props) {
                 </div>
 
                 <div className="card-bottom px-3 pt-4 row">
-                    <div className="col-4">
-                        <p><i className="fas fa-tint"></i>  Humidity: 4</p>
-                        <p><i className="fas fa-cloud"></i> Cloud Cover: 5</p>
-                        <p><i className="fas fa-umbrella"></i>  Rain: 22mm</p>
+                    <div className="col-4 lower-weather">
+                        <p><i className="fas fa-tint"></i>   Humidity: {props.humidity}%</p>
+                        <p><i className="fas fa-cloud"></i> Cloud: 28%</p>
+                        <p><i className="fas fa-umbrella"></i> Rain Today: {props.rain ? "yes" : "no"}</p>
                     </div>
                     <div className="col-4 text-center">
                         {isDay ?
-                            (<p><i className="fas fa-moon"></i> Sunset:{sunsetHour % 12}:{sunsetMinute}pm</p>)
+                            (<p className="sun-moon"><i className="fas fa-moon"></i> Sunset: {sunsetHour % 12}:{sunsetMinute}pm</p>)
                             :
-                            (<p><i className="fas fa-sun"></i> Sunrise:{sunriseHour % 12}:{sunriseMinute}am</p>)
+                            (<p className="sun-moon"><i className="fas fa-sun"></i> Sunrise: {sunriseHour % 12}:{sunriseMinute}am</p>)
                         }
                     </div>
                     <div className="col-4 text-center">
 
-                        <span><i className="fas fa-wind"></i> {props.windSpeed}m/s</span>
-                        <p className="mt-2">{windDirection}</p>
+                        <span><i className="fas fa-wind"></i> {props.isMetric ? Math.round(props.windSpeed) + " m/s" : Math.round(props.windSpeed * 1.94384) + " knots"}</span>
+                        <p className="mt-3">Blowing {windDirection}</p>
                     </div>
 
                 </div>
-                <div className="text-center mt-3">
-                    <span><i className="fas fa-cog"></i> kph/mph   C/F</span>
-                </div>
+
+
+
+
+
 
             </div>
-
+            <div className="text-center mt-2 settings">
+                <span onClick={props.changeUnit}><i className="fas fa-cog"></i> {props.isMetric ? "Imperial" : "Metric"}</span><br />
+                <span onClick={props.refresh}><i class="fas fa-sync-alt"></i> last updated: {lastUpdate.getHours()}:{lastUpdate.getMinutes()}</span>
+            </div>
         </div>
     )
 

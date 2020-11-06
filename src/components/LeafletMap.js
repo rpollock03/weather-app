@@ -15,7 +15,7 @@ function LeafletMap(props) {
 
 
             center={position}
-            zoom={8}
+            zoom={9}
             zoomControl={false}
             doubleClickZoom={false}
             closePopupOnClick={false}

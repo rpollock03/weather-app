@@ -31,7 +31,6 @@ function App() {
     sunset: 0,
     windSpeed: 0,
     windDirect: 0,
-    cloudCover: 0,
     iconCode: 0
   })
 
@@ -55,12 +54,6 @@ function App() {
     longitude: 0.0
   })
 
-
-  //state to keep track of units of measurement
-  const [tempUnit, setTempUnit] = useState({
-    isCelsius: true
-  })
-
   const [units, setUnits] = useState({
     isMetric: true
   })
@@ -68,21 +61,11 @@ function App() {
 
   // -- FUNCTIONS
 
-  // change C/F if button clicked
-  function changeTempUnit() {
-    setTempUnit({
-      isCelsius: !tempUnit.isCelsius
-    }
-    )
-    console.log(tempUnit.isCelsius)
-  }
-
   // change kph/mph if button clicked  
   function changeUnit() {
     setUnits({
       isMetric: !units.isMetric
     })
-    console.log(units.isMetric)
   }
 
   // retrieve weather data from weather api based on coordinates
@@ -100,6 +83,7 @@ function App() {
     fetch(currentWeatherRequest)
       .then(response => response.json())
       .then(current => {
+        console.log(current)
         setCurrentWeather({
           // set current weather in state
           condition: current.weather[0].description,
@@ -111,7 +95,8 @@ function App() {
           windSpeed: current.wind.speed,
           windDirection: current.wind.deg,
           cloudClover: current.clouds.all,
-          iconCode: current.weather[0].id
+          iconCode: current.weather[0].id,
+          humidity: current.main.humidity
         })
         setLocation({
           // set location state for header component
@@ -227,19 +212,28 @@ function App() {
               lat={coords.latitude}
               lon={coords.longitude}
               icon={currentWeather.iconCode}
+              changeUnit={changeUnit}
+              isMetric={units.isMetric}
+              humidity={currentWeather.humidity}
+              dateTime={location.dateTime}
+
 
             />
 
 
           </div>
-          <div className="col-8 col-md-4 mt-0 mt-md-5 forecast-cont">
-            <p><i className="fas fa-sync-alt"></i>{days[dayOfWeek]}, {dayOfMonth}{suffix} {months[monthOfYear]} at {hour}:{minute}:{seconds} </p>
+          <div className="col-12 col-md-4 mt-0 mt-md-5 forecast-cont">
 
             {forecast.forecasts.map((dailyForecast, index) =>
               <Forecast
                 key={index}
+                day={index}
                 weather={dailyForecast.weather[0].description}
                 icon={dailyForecast.weather[0].id}
+                tempHigh={dailyForecast.temp.max}
+                tempLow={dailyForecast.temp.min}
+                windSpeed={dailyForecast.wind_speed}
+                isMetric={units.isMetric}
               />
             )}
 
