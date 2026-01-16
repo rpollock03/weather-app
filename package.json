@@ -18,7 +18,7 @@
     "react-hook-google-maps": "0.0.3",
     "react-icons": "^3.10.0",
     "react-leaflet": "^2.7.0",
-    "react-scripts": "^3.4.3"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
